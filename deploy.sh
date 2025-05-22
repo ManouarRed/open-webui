@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Navigate to backend folder
-cd backend || exit 1
+cd backend || { echo "Failed to enter backend directory"; exit 1; }
 
-# Set up virtual environment
-python3 -m venv venv
-source venv/bin/activate
+python3 --version
 
-# Upgrade pip and install dependencies
-pip install --upgrade pip
-pip install -r requirements.txt
+python3 -m venv venv || { echo "Failed to create venv"; exit 1; }
 
-# Run the backend
+source venv/bin/activate || { echo "Failed to activate venv"; exit 1; }
+
+pip install --upgrade pip setuptools wheel || { echo "Failed to upgrade pip"; exit 1; }
+
+pip install -r requirements.txt || { echo "Failed to install dependencies"; exit 1; }
+
 nohup python3 main.py &> ../../openwebui.log &
